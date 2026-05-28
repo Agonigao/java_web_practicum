@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>图书查询 - 吕梁学院资料室管理系统</title>
     <!-- 引入 Bootstrap 图标 CDN -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/bootstrap-icons.min.css">
     <!-- 引入全局高端 UI 样式 -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/style.css">
     <style>

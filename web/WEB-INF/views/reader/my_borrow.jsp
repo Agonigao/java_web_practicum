@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>我的借阅记录 - 吕梁学院资料室管理系统</title>
     <!-- 引入 Bootstrap 图标 CDN -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/bootstrap-icons.min.css">
     <!-- 引入全局高端 UI 样式 -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/style.css">
     <style>
@@ -91,9 +91,12 @@
                                 <div style="display: flex; justify-content: center;">
                                     <c:choose>
                                         <c:when test="${record.status == 0 && record.renewCount < 1}">
-                                            <a href="${pageContext.request.contextPath}/borrow/renew?recordId=${record.id}" class="btn btn-primary" style="padding: 6px 12px; font-size: 12px;">
-                                                <i class="bi bi-arrow-repeat"></i> 续借 30 天
-                                            </a>
+                                            <form method="post" action="${pageContext.request.contextPath}/borrow/renew" style="display:inline; margin:0;">
+                                                <input type="hidden" name="recordId" value="${record.id}" />
+                                                <button type="submit" class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px;">
+                                                    <i class="bi bi-arrow-repeat"></i> 续借
+                                                </button>
+                                            </form>
                                         </c:when>
                                         <c:when test="${record.status == 0}">
                                             <span class="small-muted" style="color: var(--text-muted); font-size: 12px;">已达续借上限</span>

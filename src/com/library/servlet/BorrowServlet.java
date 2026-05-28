@@ -79,26 +79,32 @@ public class BorrowServlet extends HttpServlet {
         record.setReaderId(readerId);
         record.setBookId(bookId);
         
-        boolean success = borrowRecordDAO.borrow(record);
-        
-        if (success) {
-            response.sendRedirect(request.getContextPath() + "/borrow/list?msg=borrow_success");
-        } else {
-            response.sendRedirect(request.getContextPath() + "/borrow/list?msg=borrow_failed");
-        }
+          boolean success = borrowRecordDAO.borrow(record);
+
+          String role = (String) request.getSession().getAttribute("role");
+          String redirectPath = "reader".equals(role) ? "/reader/myborrow" : "/borrow/list";
+
+          if (success) {
+              response.sendRedirect(request.getContextPath() + redirectPath + "?msg=borrow_success");
+          } else {
+              response.sendRedirect(request.getContextPath() + redirectPath + "?msg=borrow_failed");
+          }
     }
 
     private void doReturn(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
         int recordId = Integer.parseInt(request.getParameter("recordId"));
         
-        boolean success = borrowRecordDAO.returnBook(recordId);
-        
-        if (success) {
-            response.sendRedirect(request.getContextPath() + "/borrow/list?msg=return_success");
-        } else {
-            response.sendRedirect(request.getContextPath() + "/borrow/list?msg=return_failed");
-        }
+          boolean success = borrowRecordDAO.returnBook(recordId);
+
+          String role = (String) request.getSession().getAttribute("role");
+          String redirectPath = "reader".equals(role) ? "/reader/myborrow" : "/borrow/list";
+
+          if (success) {
+              response.sendRedirect(request.getContextPath() + redirectPath + "?msg=return_success");
+          } else {
+              response.sendRedirect(request.getContextPath() + redirectPath + "?msg=return_failed");
+          }
     }
 
     private void renewBook(HttpServletRequest request, HttpServletResponse response) 
@@ -106,12 +112,15 @@ public class BorrowServlet extends HttpServlet {
         Integer recordId = Integer.valueOf(request.getParameter("recordId"));
         
         // 续借30天
-        boolean success = borrowRecordDAO.renew(recordId, Integer.valueOf(30));
-        
-        if (success) {
-            response.sendRedirect(request.getContextPath() + "/borrow/list?msg=renew_success");
-        } else {
-            response.sendRedirect(request.getContextPath() + "/borrow/list?msg=renew_failed");
-        }
+          boolean success = borrowRecordDAO.renew(recordId, Integer.valueOf(30));
+
+          String role = (String) request.getSession().getAttribute("role");
+          String redirectPath = "reader".equals(role) ? "/reader/myborrow" : "/borrow/list";
+
+          if (success) {
+              response.sendRedirect(request.getContextPath() + redirectPath + "?msg=renew_success");
+          } else {
+              response.sendRedirect(request.getContextPath() + redirectPath + "?msg=renew_failed");
+          }
     }
 }
