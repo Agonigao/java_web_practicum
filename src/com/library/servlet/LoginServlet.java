@@ -1,7 +1,9 @@
 package com.library.servlet;
 
 import com.library.dao.UserDAO;
+import com.library.dao.ReaderInfoDAO;
 import com.library.entity.User;
+import com.library.entity.ReaderInfo;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -16,6 +18,7 @@ import java.io.IOException;
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
     private UserDAO userDAO = new UserDAO();
+    private ReaderInfoDAO readerInfoDAO = new ReaderInfoDAO();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) 
@@ -78,6 +81,19 @@ public class LoginServlet extends HttpServlet {
                 session.setAttribute("username", user.getUsername());
                 session.setAttribute("role", user.getRole());
                 
+                // 如果是读者角色，获取读者信息
+                if ("reader".equals(user.getRole())) {
+                    ReaderInfo reader = readerInfoDAO.findByUserId(user.getId());
+                    if (reader != null) {
+                        session.setAttribute("readerId", reader.getId());
+                        session.setAttribute("readerTypeId", reader.getReaderTypeId());
+                        session.setAttribute("realName", reader.getRealName());
+                    }
+                } else {
+                    // 管理员用户也设置 realName
+                    session.setAttribute("realName", user.getUsername());
+                }
+
                 // 根据角色跳转到不同页面
                 if ("admin".equals(user.getRole())) {
                     System.out.println("[LoginServlet] 跳转到管理员后台");
