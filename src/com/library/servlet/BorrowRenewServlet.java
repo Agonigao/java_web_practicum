@@ -64,7 +64,8 @@ public class BorrowRenewServlet extends HttpServlet {
             LOGGER.log(Level.WARNING, "Failed to renew borrow record", e);
             request.getSession().setAttribute("error", "续借失败：" + e.getMessage());
         }
-        
-        response.sendRedirect(request.getContextPath() + "/borrow?my");
+        String role = (String) request.getSession().getAttribute("role");
+        String redirectPath = "admin".equals(role) ? "/borrow/list" : "/reader/myborrow";
+        response.sendRedirect(request.getContextPath() + redirectPath);
     }
 }
