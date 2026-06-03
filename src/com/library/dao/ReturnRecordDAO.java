@@ -41,10 +41,11 @@ public class ReturnRecordDAO {
      * 根据借阅ID查询归还记录
      */
     public ReturnRecord findByBorrowId(Integer borrowId) {
-        String sql = "SELECT rr.*, ri.real_name, bi.title AS book_title " +
+        String sql = "SELECT rr.*, ri.real_name, bi.title AS book_title, br.borrow_date " +
                      "FROM return_record rr " +
                      "LEFT JOIN reader_info ri ON rr.reader_id = ri.id " +
                      "LEFT JOIN book_info bi ON rr.book_id = bi.id " +
+                     "LEFT JOIN borrow_record br ON rr.borrow_id = br.id " +
                      "WHERE rr.borrow_id = ?";
         try (Connection conn = DBUtil.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -64,10 +65,11 @@ public class ReturnRecordDAO {
      */
     public List<ReturnRecord> findByReaderId(Integer readerId) {
         List<ReturnRecord> records = new ArrayList<>();
-        String sql = "SELECT rr.*, ri.real_name, bi.title AS book_title " +
+        String sql = "SELECT rr.*, ri.real_name, bi.title AS book_title, br.borrow_date " +
                      "FROM return_record rr " +
                      "LEFT JOIN reader_info ri ON rr.reader_id = ri.id " +
                      "LEFT JOIN book_info bi ON rr.book_id = bi.id " +
+                     "LEFT JOIN borrow_record br ON rr.borrow_id = br.id " +
                      "WHERE rr.reader_id = ? ORDER BY rr.return_date DESC";
         
         try (Connection conn = DBUtil.getConnection();
@@ -90,10 +92,11 @@ public class ReturnRecordDAO {
      */
     public List<ReturnRecord> findAll() {
         List<ReturnRecord> records = new ArrayList<>();
-        String sql = "SELECT rr.*, ri.real_name, bi.title AS book_title " +
+        String sql = "SELECT rr.*, ri.real_name, bi.title AS book_title, br.borrow_date " +
                      "FROM return_record rr " +
                      "LEFT JOIN reader_info ri ON rr.reader_id = ri.id " +
                      "LEFT JOIN book_info bi ON rr.book_id = bi.id " +
+                     "LEFT JOIN borrow_record br ON rr.borrow_id = br.id " +
                      "ORDER BY rr.return_date DESC";
         
         try (Connection conn = DBUtil.getConnection();
@@ -114,10 +117,11 @@ public class ReturnRecordDAO {
      */
     public List<ReturnRecord> findOverdueRecords() {
         List<ReturnRecord> records = new ArrayList<>();
-        String sql = "SELECT rr.*, ri.real_name, bi.title AS book_title " +
+        String sql = "SELECT rr.*, ri.real_name, bi.title AS book_title, br.borrow_date " +
                      "FROM return_record rr " +
                      "LEFT JOIN reader_info ri ON rr.reader_id = ri.id " +
                      "LEFT JOIN book_info bi ON rr.book_id = bi.id " +
+                     "LEFT JOIN borrow_record br ON rr.borrow_id = br.id " +
                      "WHERE rr.is_overdue = 1 ORDER BY rr.return_date DESC";
         
         try (Connection conn = DBUtil.getConnection();
@@ -160,6 +164,7 @@ public class ReturnRecordDAO {
         record.setIsOverdue(rs.getInt("is_overdue"));
         record.setFineAmount(rs.getBigDecimal("fine_amount"));
         record.setOperatorId(rs.getInt("operator_id"));
+        record.setBorrowDate(rs.getTimestamp("borrow_date"));
         return record;
     }
 }

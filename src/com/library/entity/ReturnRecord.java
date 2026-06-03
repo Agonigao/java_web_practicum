@@ -21,6 +21,7 @@ public class ReturnRecord implements Serializable {
     private BigDecimal fineAmount;    // 逾期罚款金额
     private Integer operatorId;       // 操作归还的管理员ID
     private String operatorName;      // 管理员姓名（关联查询）
+    private Timestamp borrowDate;     // 借出时间（关联查询）
     
     public ReturnRecord() {}
     
@@ -56,6 +57,9 @@ public class ReturnRecord implements Serializable {
     
     public String getOperatorName() { return operatorName; }
     public void setOperatorName(String operatorName) { this.operatorName = operatorName; }
+    
+    public Timestamp getBorrowDate() { return borrowDate; }
+    public void setBorrowDate(Timestamp borrowDate) { this.borrowDate = borrowDate; }
     
     @Override
     public String toString() {

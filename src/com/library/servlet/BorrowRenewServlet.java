@@ -34,8 +34,11 @@ public class BorrowRenewServlet extends HttpServlet {
             throws IOException {
 
         String recordIdStr = request.getParameter("recordId");
+        String role = (String) request.getSession().getAttribute("role");
+        String redirectPath = "reader".equals(role) ? "/reader/myborrow" : "/borrow/list";
+
         if (recordIdStr == null) {
-            response.sendRedirect(request.getContextPath() + "/borrow?my");
+            response.sendRedirect(request.getContextPath() + redirectPath);
             return;
         }
 
@@ -65,6 +68,6 @@ public class BorrowRenewServlet extends HttpServlet {
             request.getSession().setAttribute("error", "续借失败：" + e.getMessage());
         }
         
-        response.sendRedirect(request.getContextPath() + "/borrow?my");
+        response.sendRedirect(request.getContextPath() + redirectPath);
     }
 }

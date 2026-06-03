@@ -64,6 +64,58 @@
             </div>
         </div>
 
+        <%-- 提示消息展示 --%>
+        <c:if test="${not empty sessionScope.msg}">
+            <div class="alert-box alert-success" style="margin-bottom: 20px;">
+                <i class="bi bi-check-circle-fill" style="font-size: 18px;"></i>
+                <div>${sessionScope.msg}</div>
+            </div>
+            <% session.removeAttribute("msg"); %>
+        </c:if>
+        <c:if test="${not empty sessionScope.error}">
+            <div class="alert-box alert-danger" style="margin-bottom: 20px;">
+                <i class="bi bi-exclamation-triangle-fill" style="font-size: 18px;"></i>
+                <div>${sessionScope.error}</div>
+            </div>
+            <% session.removeAttribute("error"); %>
+        </c:if>
+        <c:if test="${param.msg == 'renew_success'}">
+            <div class="alert-box alert-success" style="margin-bottom: 20px;">
+                <i class="bi bi-check-circle-fill" style="font-size: 18px;"></i>
+                <div>图书续借成功！</div>
+            </div>
+        </c:if>
+        <c:if test="${param.msg == 'renew_failed'}">
+            <div class="alert-box alert-danger" style="margin-bottom: 20px;">
+                <i class="bi bi-exclamation-triangle-fill" style="font-size: 18px;"></i>
+                <div>图书续借失败！</div>
+            </div>
+        </c:if>
+        <c:if test="${param.msg == 'borrow_success'}">
+            <div class="alert-box alert-success" style="margin-bottom: 20px;">
+                <i class="bi bi-check-circle-fill" style="font-size: 18px;"></i>
+                <div>图书借阅成功！</div>
+            </div>
+        </c:if>
+        <c:if test="${param.msg == 'borrow_failed'}">
+            <div class="alert-box alert-danger" style="margin-bottom: 20px;">
+                <i class="bi bi-exclamation-triangle-fill" style="font-size: 18px;"></i>
+                <div>图书借阅失败，请稍后重试。</div>
+            </div>
+        </c:if>
+        <c:if test="${param.msg == 'return_success'}">
+            <div class="alert-box alert-success" style="margin-bottom: 20px;">
+                <i class="bi bi-check-circle-fill" style="font-size: 18px;"></i>
+                <div>图书归还成功！</div>
+            </div>
+        </c:if>
+        <c:if test="${param.msg == 'return_failed'}">
+            <div class="alert-box alert-danger" style="margin-bottom: 20px;">
+                <i class="bi bi-exclamation-triangle-fill" style="font-size: 18px;"></i>
+                <div>图书归还失败，请稍后重试。</div>
+            </div>
+        </c:if>
+
         <c:choose>
             <c:when test="${not empty records}">
                 <table>

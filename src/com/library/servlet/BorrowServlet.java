@@ -153,17 +153,18 @@ public class BorrowServlet extends HttpServlet {
     private void doReturn(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
         int recordId = Integer.parseInt(request.getParameter("recordId"));
+        Integer operatorId = (Integer) request.getSession().getAttribute("userId");
         
-          boolean success = borrowRecordDAO.returnBook(recordId);
+        boolean success = borrowRecordDAO.returnBook(recordId, operatorId);
 
-          String role = (String) request.getSession().getAttribute("role");
-          String redirectPath = "reader".equals(role) ? "/reader/myborrow" : "/borrow/list";
+        String role = (String) request.getSession().getAttribute("role");
+        String redirectPath = "reader".equals(role) ? "/reader/myborrow" : "/borrow/list";
 
-          if (success) {
-              response.sendRedirect(request.getContextPath() + redirectPath + "?msg=return_success");
-          } else {
-              response.sendRedirect(request.getContextPath() + redirectPath + "?msg=return_failed");
-          }
+        if (success) {
+            response.sendRedirect(request.getContextPath() + redirectPath + "?msg=return_success");
+        } else {
+            response.sendRedirect(request.getContextPath() + redirectPath + "?msg=return_failed");
+        }
     }
 
     private void renewBook(HttpServletRequest request, HttpServletResponse response) 

@@ -61,7 +61,8 @@ public class SecurityFilter implements Filter {
         
         // 3. 越权校验：管理员专用路径限制
         if (path.startsWith("/admin/") || path.startsWith("/book/") || 
-            path.equals("/borrow/list") || path.startsWith("/borrow/return")) {
+            "/borrow".equals(path) || "/borrow/".equals(path) || 
+            "/borrow/list".equals(path) || path.startsWith("/borrow/return")) {
             
             if (!"admin".equals(role)) {
                 // 非管理员越权访问管理端，拒绝请求，重定向至读者图书查询页并提示无权
